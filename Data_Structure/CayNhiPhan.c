@@ -117,10 +117,68 @@ int countOneChild(Node* root){
     }
     return 0+cntL+cntR;
 }
+int countEven(Node *root){
+    int cntL,cntR;
+    if (root==NULL){
+        return 0;
+    }
+    cntL=countEven(root->L);
+    cntR=countEven(root->R);
+    if((root->x)%2==0){
+        return 1+cntL+cntR;
+    }
+    return 0+cntL+cntR;
+}
+int findMax(Node *root){
+    if (root==NULL){
+        return 0;
+    }
+    int maxL,maxR;
+    int max=root->x;
+    maxL=findMax(root->L);
+    maxR=findMax(root->R);
+    if (maxL>max){
+        max=maxL;
+    }if(maxR>max){
+        max=maxR;
+    }    
+    return max;
+}
+int countGreater(Node *root, int x){
+    if (root==NULL){
+        return 0;
+    }
+    int cntL,cntR;
+    cntL=countGreater(root->L,x);
+    cntR=countGreater(root->R,x);
+    if ((root->x)>x){
+        return 1+cntL+cntR;
+    }
+    return cntL+cntR;
+}
+int isSameTree(Node *a, Node *b){
+    if(a==NULL&&b==NULL){
+        return 1;
+    }else if(a==NULL||b==NULL){
+        return 0;
+    }
+    if(isSameTree(a->L,b->L)&&isSameTree(a->R,b->R)&&a->x==b->x){
+        return 1;
+    }
+    return 0;
+}
 int main(){
-    Node *root = createTree();
+    printf("Nhap cay A:\n");
+    Node *a = createTree();
 
-    printf("So node co gia tri chan: %d\n", countEven(root));
+    printf("Nhap cay B:\n");
+    Node *b = createTree();
+
+    if (isSameTree(a, b)){
+        printf("Hai cay giong nhau!\n");
+    }else{
+        printf("Hai cay khong giong nhau!\n");
+    }
 
     return 0;
 }
